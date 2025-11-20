@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jasa Joki Tugas & Desain</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg-color: #ffffff;
+  --text-color: #222;
+  --card-bg: #f7f7f7;
+  --accent-color: #4f46e5;
+}
+.dark {
+  --bg-color: #0d0d0d;
+  --text-color: #f0f0f0;
+  --card-bg: #1a1a1a;
+  --accent-color: #6366f1;
+}
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
+  transition: 0.3s;
+}
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background: var(--bg-color);
+  border-bottom: 1px solid #ccc;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  backdrop-filter: none; /* memastikan tidak blur */
+}
+
+nav .logo {
+  font-size: 22px;
+  font-weight: 700;
+}
+nav .menu {
+  display: flex;
+  gap: 35px;
+  font-size: 16px;
+  font-weight: 500;
+}
+nav a { color: var(--text-color); text-decoration: none; }
+nav .btns { display: flex; gap: 12px; }
+
+.btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.carousel-container {
+  max-width: 100%; margin: 20px auto; position: relative; overflow: hidden; border-radius: 15px;
+}
+.carousel-slide { display: none; }
+.carousel-slide img {
+  width: 100%; height: 420px; object-fit: cover; border-radius: 15px;
+}
+.fade { animation: fadeEffect 1.2s; }
+@keyframes fadeEffect { from{opacity:.3;} to{opacity:1;} }
+.prev, .next {
+  cursor: pointer; position: absolute; top: 50%; padding: 10px; font-size: 35px;
+  color: var(--text-color);
+}
+.prev { left: 15px; }
+.next { right: 15px; }
+.dot-container { text-align:center; padding:10px; }
+.dot { height:12px; width:12px; margin:3px; border-radius:50%; background:var(--text-color); display:inline-block; }
+.active { background:var(--accent-color); }
+
+section { padding: 40px 60px; }
+
+.products {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 25px;
+}
+.card { background: var(--card-bg); padding: 20px; border-radius: 12px; }
+.card h3 { font-size: 20px; font-weight: 700; }
+
+#detail { display: none; }
+.box {
+  background: var(--card-bg); padding: 30px; border-radius: 12px; max-width: 800px; margin: auto;
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div class="logo">
+    <img src="img/logojoki-removebg-preview.png" alt="Logo" style="height:60px;object-fit:contain;">
+  </div>
+
+  <div class="menu">
+    <a href="#home">Home</a>
+    <a href="#produk">Produk</a>
+  </div>
+
+  <div class="btns">
+    <button class="btn" onclick="toggleTheme()">Tema</button>
+  </div>
+</nav>
+
+<!-- CAROUSEL -->
+<div class="carousel-container" id="home">
+  <div class="carousel-slide fade"><img src="img/cr1.png"></div>
+  <div class="carousel-slide fade"><img src="img/cr4.png"></div>
+  <div class="carousel-slide fade"><img src="img/cr3.png"></div>
+
+  <span class="prev" onclick="moveSlide(-1)">&#10094;</span>
+  <span class="next" onclick="moveSlide(1)">&#10095;</span>
+
+  <div class="dot-container">
+    <span class="dot" onclick="currentSlide(1)"></span>
+    <span class="dot" onclick="currentSlide(2)"></span>
+    <span class="dot" onclick="currentSlide(3)"></span>
+  </div>
+</div>
+
+<!-- PRODUK -->
+<section id="produk">
+  <h2>Produk & Jasa</h2>
+
+  <div class="products">
+
+    <div class="card">
+      <img src="img/makalah.png" style="width:100%;border-radius:10px;margin-bottom:10px;">
+      <h3>Makalah</h3>
+      <button class="btn" onclick="showDetail('Makalah')">Detail</button>
+    </div>
+
+    <div class="card">
+      <img src="img/penelitian.png" style="width:100%;border-radius:10px;margin-bottom:10px;">
+      <h3>Laporan Penelitian</h3>
+      <button class="btn" onclick="showDetail('Laporan Penelitian')">Detail</button>
+    </div>
+
+    <div class="card">
+      <img src="img/ppt.png" style="width:100%;border-radius:10px;margin-bottom:10px;">
+      <h3>PowerPoint</h3>
+      <button class="btn" onclick="showDetail('PowerPoint')">Detail</button>
+    </div>
+
+    <div class="card">
+      <img src="img/desain.png" style="width:100%;border-radius:10px;margin-bottom:10px;">
+      <h3>Desain Poster</h3>
+      <button class="btn" onclick="showDetail('Desain Poster')">Detail</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- DETAIL PRODUK -->
+<section id="detail">
+  <div class="box">
+    <img id="detailImg" src="img/all.png" style="width:55%;display:block;margin:auto;border-radius:12px;margin-bottom:15px;">
+    <h2 id="detailTitle"></h2>
+    <p>Detail lengkap produk/jasa.</p>
+
+    <!-- PESAN LANGSUNG WA -->
+    <button class="btn" onclick="orderNow(detailTitle.textContent)">Pesan</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div style="width:100%;height:2px;background:#ccc;margin-top:40px;"></div>
+
+<footer style="background:var(--card-bg);padding:25px 0;text-align:center;">
+  <p style="margin:0;font-size:18px;font-weight:600;">©2025joki_tugas_ezz</p>
+  <p style="margin-top:5px;font-size:14px;">Layanan Joki Terpercaya</p>
+
+  <div style="margin-top:10px;display:flex;justify-content:center;gap:25px;">
+    <a href="https://www.instagram.com/joki_tugas_ezz?igsh=MTJpZjFnN2xobnRu" 
+   target="_blank"
+   style="text-decoration:none;">
+    <img src="img/ig.png" 
+         alt="Instagram" 
+         style="height:32px; width:32px; object-fit:contain;">
+</a>
+
+<a href="https://wa.me/6281944872700" 
+   target="_blank"
+   style="text-decoration:none; margin-left:20px;">
+    <img src="img/wa (1).png" 
+         alt="WhatsApp" 
+         style="height:32px; width:32px; object-fit:contain;">
+</a>
+
+  </div>
+</footer>
+
+<!-- SCRIPT -->
+<script>
+// SLIDER
+let slideIndex = 1;
+showSlides(slideIndex);
+
+function moveSlide(n){ showSlides(slideIndex += n); }
+function currentSlide(n){ showSlides(slideIndex = n); }
+
+function showSlides(n){
+  let slides = document.getElementsByClassName("carousel-slide");
+  let dots = document.getElementsByClassName("dot");
+
+  if(n > slides.length){ slideIndex = 1 }
+  if(n < 1){ slideIndex = slides.length }
+
+  for(let s of slides){ s.style.display = "none"; }
+  for(let d of dots){ d.className = d.className.replace(" active",""); }
+
+  slides[slideIndex - 1].style.display = "block";
+  dots[slideIndex - 1].className += " active";
+}
+
+setInterval(()=>{ moveSlide(1); }, 4500);
+
+// TEMA
+function toggleTheme(){
+  document.body.classList.toggle('dark');
+}
+
+// DETAIL PRODUK
+function showDetail(name){
+  document.getElementById("detailTitle").textContent = name;
+  document.getElementById("detail").style.display = "block";
+  window.location = "#detail";
+}
+
+// PESAN WA LANGSUNG
+function orderNow(productName){
+  const admin = "6281944872700";
+  const msg =
+    "Halo Admin%0A" +
+    "Saya ingin memesan:%0A" +
+    "*"+ encodeURIComponent(productName) +"*%0A%0A" +
+    "Mohon info lanjut.";
+
+  window.open("https://wa.me/" + admin + "?text=" + msg, "_blank");
+}
+</script>
+
+</body>
+</html>
